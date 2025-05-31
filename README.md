@@ -1,1 +1,33 @@
-# trabalho-ic
+# Trabalho de IC
+
+## Objetivo
+O  trabalho de Introdução à Computação visa fortalecer a programação ética e a boa conduta social dos estudantes do curso, ao incentivá-los a utilizar sua criatividade e capacidade de resolução de problemas para criarem soluções tecnológicas para o ambiente universitário, as quais promovam o bem-estar social e a melhorem aspectos do dia-a-dia, solucionando problemas ou facilitando outros aspectos. 
+
+## Base Teórica do Trabalho
+### O Problema
+Atualmente, na UFMG, os estudantes se deparam com um grande problema: a falta de otimização e organização nas filas dos restaurantes universitários levam à superlotação do local e a grande perda de tempo para que seja possível se alimentar.
+
+### A Solução
+Visando corrigir essa falta de otimização, desejamos criar um sistema de controle de pagamento para acelerar as filas, por meio de um cartão específico para uso nos restaurantes universitários. Esse cartão poderá ser recarregado por totens espalhados no campus, ou por um aplicativo mobile, permitindo que o pagamento seja realizado automaticamente ao passar o cartão na catraca, caso haja saldo. Os totens e o aplicativo também devem apresentar o índice de lotação de cada restaurante, auxiliando na escolha de qual ir, sem que seja preciso conferir pessoalmente.
+
+## Base Prática do Trabalho
+Na prática, a partir de uma pesquisa, criaremos um documento com dados e informações embasando nossa ideia, além de detalhá-la. Além disso, criaremos mock-ups visuais das aplicações, slides para a apresentação e protótipos das funcionalidades básicas das aplicações, incluindo uma API, um banco de dados básico, um aplicativo mobile e uma aplicação para os totens, os quais todos serão detalhados a diante.
+
+### API
+A API será responsável por conectar as aplicações com o banco de dados, gerando uma camada extra de proteção, uma vez que o usuário não terá permissão para interagir diretamente com o banco e alterar valores como seu saldo, responsabilidade da API. 
+
+#### Funcionalidades
+- Adicionar um usuário ao banco
+- Remover um usuário do banco
+- Alterar informações do usuário no banco
+- Obter informações de usuário específico do banco
+- Adicionar um restaurante ao banco
+- Remover um restaurante do banco
+- Alterar informações do restaurante no banco
+- Obter informações de um usuário específico do banco
+
+Mais especificamente:
+
+- Aumentar o saldo de um usuário por meio de uma recarga
+- Debitar pagamento do saldo de um usuário
+- Aumentar ou diminuir o número de pessoas em um restaurante
