@@ -9,7 +9,7 @@ class UserBase(BaseModel):
 
     
 class UserCreate(UserBase):
-    pass
+    balance: Optional[int] = 0
 
 class UserUpdate(BaseModel):
     fump: Optional[bool] = None

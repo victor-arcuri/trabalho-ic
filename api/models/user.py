@@ -4,7 +4,7 @@ from typing import Dict
 class UserModel(BaseModel):
 
     @classmethod
-    def get_all(cls) -> Dict[str, dict]:
+    def get_all(cls) -> list[Dict[str, dict]]:
         db = cls._read_db()
         return [{"id":u_id, **u_data} for u_id, u_data in db.get("users", {}).items()];
 

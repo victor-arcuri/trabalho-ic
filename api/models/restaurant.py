@@ -4,7 +4,7 @@ from typing import Dict
 class RestaurantModel(BaseModel):
 
     @classmethod
-    def get_all(cls) -> Dict[str, dict]:
+    def get_all(cls) -> list[Dict[str, dict]]:
         db = cls._read_db()
         return [{"id":r_id, **r_data} for r_id, r_data in db.get("restaurants", {}).items()];
 
