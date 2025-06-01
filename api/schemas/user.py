@@ -1,0 +1,23 @@
+from pydantic import BaseModel
+from typing import List, Optional
+
+class UserBase(BaseModel):
+    name: str
+    surname: str
+    studentId: str
+    fump: bool
+
+    
+class UserCreate(UserBase):
+    pass
+
+class UserUpdate(BaseModel):
+    fump: Optional[bool] = None
+    balance: Optional[int] = None 
+    name: Optional[str] = None 
+    surname: Optional[str] = None 
+    studentId: Optional[str] = None 
+
+class User(UserBase):
+    id: int
+    balance: int

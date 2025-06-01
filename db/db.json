@@ -1,0 +1,23 @@
+{
+    "users":{
+        "0": {
+            "studentId": "2025051241",
+            "name": "Victor",
+            "surname": "Romano Arcuri",
+            "balance": 0,
+            "fump": false
+        }
+    },
+    "restaurants":{
+        "0": {
+            "nome": "Restaurante Universitário Setorial 1",
+            "capacity": 1000,
+            "occupancy": 0
+        },
+        "1": {
+            "nome": "Restaurante Universitário Setorial 2",
+            "capacity": 1000,
+            "occupancy": 0
+        }
+    }
+}
