@@ -1,5 +1,5 @@
 {
-    "users":{
+    "users": {
         "0": {
             "studentId": "2025051241",
             "name": "Victor",
@@ -8,15 +8,15 @@
             "fump": false
         }
     },
-    "restaurants":{
+    "restaurants": {
         "0": {
-            "nome": "Restaurante Universitário Setorial 1",
+            "name": "Restaurante Universit\u00e1rio Setorial 1",
             "capacity": 1000,
             "occupancy": 0
         },
         "1": {
-            "nome": "Restaurante Universitário Setorial 2",
-            "capacity": 1000,
+            "name": "Restaurante Universit\u00e1rio Setorial 2",
+            "capacity": 600,
             "occupancy": 0
         }
     }

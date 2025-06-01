@@ -7,7 +7,7 @@ class RestaurantBase(BaseModel):
 
     
 class RestaurantCreate(RestaurantBase):
-    pass
+    occupancy: Optional[int] = 0
 
 
 class RestaurantUpdate(BaseModel):

@@ -1,4 +1,4 @@
-from base import BaseModel
+from api.models.base import BaseModel
 from typing import Dict
 
 class RestaurantModel(BaseModel):
@@ -6,7 +6,7 @@ class RestaurantModel(BaseModel):
     @classmethod
     def get_all(cls) -> Dict[str, dict]:
         db = cls._read_db()
-        return db.get("restaurants", {});
+        return [{"id":r_id, **r_data} for r_id, r_data in db.get("restaurants", {}).items()];
 
     @classmethod
     def get_by_id(cls, restaurant_id: int):
@@ -16,33 +16,30 @@ class RestaurantModel(BaseModel):
     @classmethod
     def create(cls, restaurant_data: dict):
         db = cls._read_db()
-        restaurants = cls.get_all()
-        
+        restaurants = db.get("restaurants",{})
         next_id = str(len(restaurants))
-
         restaurants[next_id] = restaurant_data
         db["restaurants"] = restaurants
-
         cls._write_db(db)
-        return {next_id: restaurant_data}
+        return {"id":next_id, **restaurant_data}
 
     @classmethod
     def update(cls, restaurant_id: str, restaurant_data: dict):
         db = cls._read_db()
-        restaurants = cls.get_all()
+        restaurants = db.get("restaurants",{})
 
         if restaurant_id in restaurants:
-            restaurants[restaurant_id].update(restaurant_data)
+            restaurants[restaurant_id].update(restaurant_data  )
             db["restaurants"] = restaurants
             cls._write_db(db)
-            return restaurants[restaurant_id]
+            return cls.get_by_id(restaurant_id)
         else:
             return None
         
     @classmethod
     def delete(cls, restaurant_id):
         db = cls._read_db()
-        restaurants = cls.get_all()
+        restaurants = db.get("restaurants",{})
 
         if restaurant_id in restaurants:
             del restaurants[restaurant_id]

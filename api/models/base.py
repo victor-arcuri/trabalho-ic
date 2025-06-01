@@ -10,5 +10,5 @@ class BaseModel:
 
     @staticmethod
     def _write_db(data: Dict) -> None:
-        with open(DB_PATH, 'W') as f:
+        with open(DB_PATH, 'w') as f:
             json.dump(data, f, indent=4)
