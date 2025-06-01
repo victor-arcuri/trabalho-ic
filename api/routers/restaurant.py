@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, status
 from fastapi.responses import Response
 from api.schemas.restaurant import Restaurant, RestaurantUpdate, RestaurantCreate
 from api.models.restaurant import RestaurantModel
+from api.services.restaurant import RestaurantService
 router = APIRouter(prefix="/restaurante", tags=["restaurants"])
 
 # Pega todos os restaurantes 
@@ -41,9 +42,16 @@ def delete_restaurant(restaurant_id: str):
 # Aumenta a lotação de um restaurante em uma pessoa
 @router.post("/{restaurant_id}/entrar",response_model=Restaurant)
 def enter_restaurant(restaurant_id: str):
-    pass
+    restaurant = RestaurantService.enter_restaurant(restaurant_id)
+    if restaurant == None:
+        raise HTTPException(status_code=404, detail="Restaurante não encontrado")
+    return restaurant;
+    
 
 # Reduz a lotação de um restaurante em uma pessoa
 @router.post("/{restaurant_id}/sair",response_model=Restaurant)
 def exit_restaurant(restaurant_id: str):
-    pass
+    restaurant = RestaurantService.exit_restaurant(restaurant_id)
+    if restaurant == None:
+        raise HTTPException(status_code=404, detail="Restaurante não encontrado")
+    return restaurant;
