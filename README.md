@@ -31,3 +31,11 @@ Mais especificamente:
 - Aumentar o saldo de um usuário por meio de uma recarga
 - Debitar pagamento do saldo de um usuário
 - Aumentar ou diminuir o número de pessoas em um restaurante
+
+### Catraca
+O protótipo da catraca é uma aplicação básica que tem como objetivo simular o processo de entrada e saída na catraca, por meio do uso do cartão para subtrair automaticamente o valor da entrada no restaurante universitário. Para fins de prototipagem, a aplicação permite:
+
+- Escolher para qual restaurante será a catraca
+- Entrar com o código da matrícula (simulando a passagem do cartão), subtraindo o valor de entrada e aumentando a taxa de lotação do restaurante na API
+- Entrar sem o código da matrícula (simulando aqueles que entram pagando direto com antendentes), apenas aumentando a taxa de lotação do restaurante na API
+- Sair do restaurante, reduzindo a taxa de lotação do restaurante na API
