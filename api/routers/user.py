@@ -3,7 +3,7 @@ from api.schemas.user import User, UserCreate, UserUpdate
 from api.models.user import UserModel
 from fastapi import HTTPException, status
 from fastapi.responses import Response
-
+from api.services.user import UserService
 router = APIRouter(prefix='/usuario', tags=['usuarios'])
 
 @router.get("/", response_model=list[User])
@@ -34,3 +34,13 @@ def delete_user(user_id: str):
     if not sucess:
         raise HTTPException(status_code=404, detail="Usuário não encontrado")
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@router.post("/{user_id}/passar", response_model=User)
+def user_swipe_card(user_id: str):
+    return UserService.user_swipe_card(user_id)
+
+@router.post("/{user_id}/recarregar", response_model=User)
+def user_recharge(user_id:str, recharge_info:dict):
+    return UserService.user_recharge(user_id, recharge_info)
+

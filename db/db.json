@@ -4,8 +4,8 @@
             "studentId": "2025051241",
             "name": "Victor",
             "surname": "Romano Arcuri",
-            "balance": 0,
-            "fump": false
+            "balance": 10000,
+            "fump": 0
         }
     },
     "restaurants": {
