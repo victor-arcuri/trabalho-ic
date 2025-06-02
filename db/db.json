@@ -4,7 +4,7 @@
             "studentId": "2025051241",
             "name": "Victor",
             "surname": "Romano Arcuri",
-            "balance": 10000,
+            "balance": 99999440,
             "fump": 0
         }
     },
@@ -13,7 +13,7 @@
             "id": "0",
             "name": "Restaurante Universit\u00e1rio Setorial 1",
             "capacity": 1000,
-            "occupancy": 16
+            "occupancy": 0
         },
         "1": {
             "id": "1",

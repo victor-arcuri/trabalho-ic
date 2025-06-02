@@ -21,6 +21,28 @@ def leave(stdscr,restaurant):
     restaurant = requests.get(API_URL+f'restaurante/{restaurant["id"]}').json()
     return restaurant
 
+def payment(user_id):
+    try:
+        response = requests.post(API_URL+f'usuario/{user_id}/passar')
+        response.raise_for_status()  
+        user = response.json()    
+        return user
+    except requests.exceptions.HTTPError as http_err:
+        if response.status_code == 400:
+            erro = response.json()
+            if 'detail' in erro and erro['detail'] == 'Dinheiro insuficiente':
+                return None
+            
+    except requests.exceptions.RequestException as err:
+        print(f"Erro na requisição: {err}")
+
+def validate_student(studentId):
+    students = requests.get(API_URL+f'usuario/').json()
+    for student in students:
+        if student["studentId"] == studentId:
+            return student["id"]
+    return None
+
 def enter_student(stdscr, restaurant):
         buffer = ""
         cursor_x = 1
@@ -36,7 +58,10 @@ def enter_student(stdscr, restaurant):
             win_y = (height - win_h) // 2
             win = curses.newwin(win_h, win_w, win_y, win_x)
             msg = "Digite sua matrícula:"
-            win.addstr(3, 3, msg, curses.A_BOLD)
+            try:
+                win.addstr(3, 3, msg, curses.A_BOLD)
+            except curses.error:
+                pass
             win.border()
             win.refresh()
             
@@ -45,22 +70,34 @@ def enter_student(stdscr, restaurant):
             subWinY = 6
             subWinX = 3
             #subWin = win.derwin(subWinHeight, subWinWidth, subWinY, subWinX)
-            subWin2 = win.derwin(3, subWinWidth + 2, subWinY - 1, subWinX-1)
-            subWin2.addstr(1,1,buffer)
-            subWin2.move(1, cursor_x)
-            subWin2.border()
-            subWin2.refresh()
-
+            try:
+                subWin2 = win.derwin(3, subWinWidth + 2, subWinY - 1, subWinX-1)
+                subWin2.addstr(1,1,buffer)
+                subWin2.move(1, cursor_x)
+                subWin2.border()
+                subWin2.refresh()
+            except:
+                pass
+                       
             txt = "Pressione 'enter' para confirmar"
             buttonHeight = 3
             buttonWidth = (len(txt) + 8)
-            buttonX = win_x - buttonWidth 
-            buttonY = win_h - 4
-            buttonWin = win.derwin(buttonHeight, buttonWidth, buttonY, buttonX)
-            buttonWin.bkgd(' ', curses.color_pair(1) | curses.A_REVERSE)
-            buttonWin.addstr(1, (buttonWidth-len(txt))//2, txt)
-            buttonWin.border()
-            buttonWin.refresh()
+            buttonX = (win_w -buttonWidth) // 2
+            buttonY = subWinY + 3
+            if (win_w <= buttonWidth):
+                txt = "Confirmar"
+                buttonWidth = (len(txt) + 2)
+                buttonX = (win_w -buttonWidth) // 2
+
+            try:
+                buttonWin = win.derwin(buttonHeight, buttonWidth, buttonY, buttonX)
+                buttonWin.bkgd(' ', curses.color_pair(1) | curses.A_REVERSE)
+                buttonWin.addstr(1, (buttonWidth-len(txt))//2, txt)
+                buttonWin.border()
+                buttonWin.refresh()
+            except curses.error:
+                pass
+            
 
 
 
@@ -69,7 +106,7 @@ def enter_student(stdscr, restaurant):
             if key == curses.KEY_RESIZE:
                 continue
             elif key in [10, 13]:  # Enter
-                pass
+                break
             elif key in (curses.KEY_BACKSPACE, 127, 8):
                 if len(buffer) > 0:
                     buffer = buffer[:-1]
@@ -78,7 +115,67 @@ def enter_student(stdscr, restaurant):
                 if len(buffer) < (subWinWidth - 2):
                     buffer += chr(key)
                     cursor_x += 1
-            curses.napms(100)  
+            curses.napms(100)
+        
+        if validate_student(buffer) is None:
+            txt = "Estudante não encontrado!"
+            student = None
+        else:
+            student = payment(validate_student(buffer))
+            if student is None:
+                txt ="Dinheiro insuficiente!"
+            else:
+                txt = "Debitado com sucesso!"
+        while True:
+            stdscr.erase()
+            stdscr.border()
+            stdscr.refresh()
+            height, width = stdscr.getmaxyx()
+            
+            win_w = int(0.4*width)
+            win_h = int (0.3*height)
+            win_x = (width - win_w) // 2 
+            win_y = (height - win_h) // 2
+            win = curses.newwin(win_h, win_w, win_y, win_x)
+            try:
+                win.addstr(3, 3, txt, curses.A_BOLD)
+            except curses.error:
+                pass
+            win.border()
+            win.refresh()
+            msg = "Pressione 'enter' para retornar"
+            buttonHeight = 3
+            buttonWidth = (len(msg) + 8)
+            buttonX = (win_w -buttonWidth) // 2
+            buttonY = subWinY + 3
+            if (win_w <= buttonWidth):
+                msg = "Retornar"
+                buttonWidth = (len(msg) + 2)
+                buttonX = (win_w -buttonWidth) // 2
+
+            try:
+                buttonWin = win.derwin(buttonHeight, buttonWidth, buttonY, buttonX)
+                buttonWin.bkgd(' ', curses.color_pair(1) | curses.A_REVERSE)
+                buttonWin.addstr(1, (buttonWidth-len(msg))//2, msg)
+                buttonWin.border()
+                buttonWin.refresh()
+            except curses.error:
+                pass
+            
+
+
+
+            key = win.getch()
+
+            if key == curses.KEY_RESIZE:
+                continue
+            elif key in [10, 13]:
+                if student is not None:
+                    enter_unkown(stdscr,restaurant)
+                break
+            curses.napms(100)
+
+
         
 
 
