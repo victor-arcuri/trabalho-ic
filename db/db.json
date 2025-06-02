@@ -13,13 +13,13 @@
             "id": "0",
             "name": "Restaurante Universit\u00e1rio Setorial 1",
             "capacity": 1000,
-            "occupancy": 8
+            "occupancy": 16
         },
         "1": {
             "id": "1",
             "name": "Restaurante Universit\u00e1rio Setorial 2",
             "capacity": 600,
-            "occupancy": 19
+            "occupancy": 0
         }
     }
 }
