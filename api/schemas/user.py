@@ -23,3 +23,8 @@ class UserUpdate(BaseModel):
 class User(UserBase):
     id: int
     balance: int
+
+
+class Fump(BaseModel):
+    level: str
+    price: int

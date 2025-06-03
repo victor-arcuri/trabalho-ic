@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from api.schemas.user import User, UserCreate, UserUpdate
+from api.schemas.user import User, UserCreate, UserUpdate, Fump
 from api.models.user import UserModel
 from fastapi import HTTPException, status
 from fastapi.responses import Response
@@ -44,3 +44,7 @@ def user_swipe_card(user_id: str):
 def user_recharge(user_id:str, recharge_info:dict):
     return UserService.user_recharge(user_id, recharge_info)
 
+
+@router.get("/{user_id}/fump", response_model=Fump)
+def user_fump_info(user_id:str):
+    return UserService.fump_info(user_id)
