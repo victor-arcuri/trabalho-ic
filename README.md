@@ -39,3 +39,10 @@ O protótipo da catraca é uma aplicação básica que tem como objetivo simular
 - Entrar com o código da matrícula (simulando a passagem do cartão), subtraindo o valor de entrada e aumentando a taxa de lotação do restaurante na API
 - Entrar sem o código da matrícula (simulando aqueles que entram pagando direto com antendentes), apenas aumentando a taxa de lotação do restaurante na API
 - Sair do restaurante, reduzindo a taxa de lotação do restaurante na API
+
+### Totem
+O protótipo do totem é uma aplicação básica que tem como objetivo simular o processo da utilização do cartão nos totens espalhados pela faculdade, permitindo sua recarga e a análise da lotação dos restaurantes. Suas funcionalidades incluem:
+
+- Ver saldo do cartão
+- Permitir recarga do cartão
+- Ver lotação dos restaurantes
