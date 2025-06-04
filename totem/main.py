@@ -251,12 +251,23 @@ def user_not_found(stdscr):
 
 def user_dashboard(stdscr, user):
     tooSmall = False
+    fump = None
+    restaurants = None
+    count = 0
     while True:
-
-        if not tooSmall: draw_bg(stdscr)
+        stdscr.erase()
+        stdscr.border()
+        stdscr.refresh()
         curses.curs_set(0)
         height, width = stdscr.getmaxyx()
 
+        if (count == 0):
+            fump = requests.get(API_URL+f'usuario/{user["id"]}/fump').json()
+            restaurants = requests.get(API_URL+f'restaurante/').json()
+            user = requests.get(API_URL+f'usuario/{user["id"]}').json()
+            count = 10
+        else:
+            count -= 1
         logo = artManager.load_art('main_logo_2.txt')
         logoWidth = len(max(logo))
         logoHeight = len(logo)
@@ -295,13 +306,15 @@ def user_dashboard(stdscr, user):
         userWinLabelY = 2
         userWinLabelX = (infoWinUserWidth - len(userWinLabel))// 2
 
+
         if (infoWinUserWidth > len(userWinLabel)):
             try:
                 infoWinUser.addstr(userWinLabelY, userWinLabelX, userWinLabel, curses.A_BOLD)
             except curses.error:
                 pass
+        
 
-
+                
         userWinUsernameLabel = "Usuário:"
         userWinUsernameContent = user["name"] + ' ' + user["surname"]
         userWinUsernameText = userWinUsernameLabel + " " + userWinUsernameContent
@@ -309,8 +322,7 @@ def user_dashboard(stdscr, user):
         userWinStudentIdLabel = "Matrícula:"
         userWinStudentIdContent = user["studentId"]
         userWinStudentIdText = userWinStudentIdLabel + " " + userWinStudentIdContent
-
-        fump = requests.get(API_URL+f'usuario/{user["id"]}/fump').json()
+        
         userWinFumpLabel = "FUMP:"
         userWinFumpLevel = 'Nível ' if user["fump"] > 0  else ''
         userWinFumpContent = f'{userWinFumpLevel}{fump["level"]} (almoço R${float(fump["price"])/100:.2f})'
@@ -326,7 +338,7 @@ def user_dashboard(stdscr, user):
         textX = (infoWinUserWidth - len(max(texts, key=len))) // 2
         textY =  int((infoWinUserHeight - 3)*0.3) + 3
         starterTextY = textY
-
+        
         if (infoWinUserWidth > len(max(texts,key=len))):
             for i,text in enumerate(texts):
                 try:
@@ -338,10 +350,10 @@ def user_dashboard(stdscr, user):
                     tooSmall = True
                     too_small(stdscr)
                     continue
-    
+        
         if not tooSmall: infoWinUser.refresh()
 
-
+        
         infoWinRestaurantWidth = infoWinWidth//2 - 1
         infoWinRestaurantHeight = infoWinHeight
         infoWinRestaurantY = 0
@@ -365,8 +377,8 @@ def user_dashboard(stdscr, user):
             except curses.error:
                 pass
 
-        
-        restaurants = requests.get(API_URL+f'restaurante/').json()
+
+
         restaurantTexts = []
         for restaurant in restaurants:
             restaurantTexts.append(f'{restaurant["name"]}: {restaurant["occupancy"]}/{restaurant["capacity"]}')
@@ -393,8 +405,6 @@ def user_dashboard(stdscr, user):
                     too_small(stdscr)
                     continue
         if not tooSmall: infoWinRestaurant.refresh()
-
-        
         curses.napms(100)
         
 
