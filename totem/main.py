@@ -5,6 +5,15 @@ from totem.ascii import AsciiArtLoader
 from totem.config import API_URL
 artManager = AsciiArtLoader()
 
+class Button:
+    def __init__(self, text, function=None):
+        self.text = text
+        self.function = function
+    
+    def execute(self, **kwargs):
+        if self.function != None:
+            self.function(**kwargs)
+
 def draw_bg(stdscr):
     stdscr.erase()
     height, width = stdscr.getmaxyx()
@@ -131,6 +140,8 @@ def login(stdscr):
                 user_not_found(stdscr)
                 continue
             user_dashboard(stdscr, user)
+            buffer = ""
+            cursor_x = 1
         
         # Backspace
         elif key in (curses.KEY_BACKSPACE, 127, 8):
@@ -163,6 +174,9 @@ def login(stdscr):
         
 
         curses.napms(50)
+
+def user_recharge(stdscr, user):
+    pass
 
 def user_not_found(stdscr):
     tooSmall = False
@@ -254,13 +268,8 @@ def user_dashboard(stdscr, user):
     fump = None
     restaurants = None
     count = 0
+    buttonIndex = 0
     while True:
-        stdscr.erase()
-        stdscr.border()
-        stdscr.refresh()
-        curses.curs_set(0)
-        height, width = stdscr.getmaxyx()
-
         if (count == 0):
             fump = requests.get(API_URL+f'usuario/{user["id"]}/fump').json()
             restaurants = requests.get(API_URL+f'restaurante/').json()
@@ -268,6 +277,11 @@ def user_dashboard(stdscr, user):
             count = 10
         else:
             count -= 1
+        stdscr.erase()
+        stdscr.border()
+        stdscr.refresh()
+        curses.curs_set(0)
+        height, width = stdscr.getmaxyx()
         logo = artManager.load_art('main_logo_2.txt')
         logoWidth = len(max(logo))
         logoHeight = len(logo)
@@ -405,6 +419,57 @@ def user_dashboard(stdscr, user):
                     too_small(stdscr)
                     continue
         if not tooSmall: infoWinRestaurant.refresh()
+
+        rechargeButtonText = "Recarregar cartão"
+        exitButtonText = "Sair"
+
+        buttonSize = 5
+        buttonsArea = height - infoWinHeight - logoHeight
+        spacing = int(0.1 * buttonsArea)
+        buttonsTotalHeight = spacing + (buttonSize*2)
+        buttonY = logoHeight + 1 + ((buttonsArea - buttonsTotalHeight)//2)
+        buttonWidth = int(width*0.5)
+        buttonX = (width - buttonWidth) // 2
+        buttons = [Button(rechargeButtonText, user_recharge), Button(exitButtonText)]
+        if (buttonY > (logoHeight+4) and width > buttonWidth):
+            for index,button in enumerate(buttons):
+                buttonWin = curses.newwin(buttonSize, buttonWidth, buttonY, buttonX)
+                if buttonIndex == index:
+                    buttonWin.bkgd(' ', curses.color_pair(1) | curses.A_REVERSE | curses.A_BOLD)    
+                try:
+                    buttonWin.addstr(2, (buttonWidth - len(button.text))// 2,  button.text)
+                except curses.error:
+                    pass
+                buttonWin.border()
+                buttonWin.refresh()
+                buttonY += buttonSize + spacing
+
+        
+        key = stdscr.getch()
+        
+        if key == curses.KEY_RESIZE:
+            continue
+
+        elif key == curses.KEY_UP:
+            buttonIndex = 1 if buttonIndex == 0 else 0
+            continue
+        elif key == curses.KEY_DOWN:
+            buttonIndex = 1 if buttonIndex == 0 else 0
+            continue
+        elif key == curses.KEY_RIGHT:
+            continue
+        elif key == curses.KEY_LEFT:
+            continue
+
+        # Enter
+        elif key in [10, 13]:
+            if (buttonIndex == 1):
+                break
+            else:
+                buttons[buttonIndex].execute(stdscr=stdscr, user=user)
+            continue
+    
+
         curses.napms(100)
         
 
