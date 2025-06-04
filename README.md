@@ -46,3 +46,28 @@ O protótipo do totem é uma aplicação básica que tem como objetivo simular o
 - Ver saldo do cartão
 - Permitir recarga do cartão
 - Ver lotação dos restaurantes
+
+### App Mobile
+Tendo em vista que as funcionalidades do app mobile seriam as mesmas do totem, variando apenas métodos de pagamento, não há necessidade de criar um protótipo específico para ele.
+
+
+## Como executar os programas
+Para iniciar a api, rode:
+```
+uvicorn api.main --reload
+```
+
+Para rodar o protótipo da catraca:
+```
+python3 -m catraca.main
+```
+
+Para rodar o protótipo do totem:
+```
+python3 -m totem.main
+```
+
+Para executar tudo:
+```
+./run_all.sh
+```
