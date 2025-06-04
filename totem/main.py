@@ -354,7 +354,7 @@ def user_recharge(stdscr, user):
                 invalid_recharge(stdscr)
                 return None
             else:
-                return requests.post(API_URL+f'usuario/{user["id"]}/recarregar', json={"amount":amount*100}).json()
+                return requests.post(API_URL+f'usuario/{user["id"]}/recarregar', json={"amount":int(amount)*100}).json()
                 break
 
 

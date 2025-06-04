@@ -212,9 +212,9 @@ def restaurant_selection(stdscr):
             x = max((winSizeX - len(msg)) // 2, 1)
             win.addstr(y, x, msg, curses.A_BOLD)
             win.refresh()
-            optionSizeY = 5
+            optionSizeY = 3
             optionSizeX = winSizeX
-            spacing = int(winSizeY*0.15)
+            spacing = int(winSizeY*0.1)
             ##currentPosY = borderY + (winSizeY // 2) - (optionSizeY * len(restaurants)) - (spacing * (len(restaurants) -1))
             currentPosY = borderY + ((winSizeY - (optionSizeY * len(restaurants) +  (spacing * (len(restaurants) -1)))) // 2)
             currentOptionX = borderX
