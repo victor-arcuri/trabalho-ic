@@ -24,7 +24,7 @@ def user_verify(studentId):
     for user in users:
         if user.get("studentId", "") == studentId:
             return user
-        return None
+    return None
     
 def too_small(stdscr):
     curses.curs_set(0)
@@ -51,7 +51,7 @@ def login(stdscr):
         height, width = stdscr.getmaxyx()
         if not tooSmall: draw_bg(stdscr)
 
-        logo = artManager.load_art('main_logo.txt')
+        logo = artManager.load_art('main_logo_2.txt')
         logoWidth = len(max(logo))
         logoHeight = len(logo)
         if (width >= logoWidth + 16 and height >= logoHeight + 4):
@@ -126,8 +126,11 @@ def login(stdscr):
 
         # Enter
         elif key in [10, 13]:
-            if user_verify(buffer) is None:
+            user = user_verify(buffer) 
+            if user is None:
                 user_not_found(stdscr)
+                continue
+            user_dashboard(stdscr, user)
         
         # Backspace
         elif key in (curses.KEY_BACKSPACE, 127, 8):
@@ -245,12 +248,166 @@ def user_not_found(stdscr):
 
         
         curses.napms(100)
+
+def user_dashboard(stdscr, user):
+    tooSmall = False
+    while True:
+
+        if not tooSmall: draw_bg(stdscr)
+        curses.curs_set(0)
+        height, width = stdscr.getmaxyx()
+
+        logo = artManager.load_art('main_logo_2.txt')
+        logoWidth = len(max(logo))
+        logoHeight = len(logo)
+        if (width >= logoWidth + 16 and height >= logoHeight + 4):
+            logoY = 5
+            logoX = (width - logoWidth) // 2
+            for line in logo:
+                stdscr.addstr(logoY, logoX, line)
+                logoY += 1
+            stdscr.border()
+            if not tooSmall: stdscr.refresh()
+        else:
+            tooSmall = True
+            too_small(stdscr)
+            continue
         
+        infoWinHeight = int(0.3*height)
+        infoWinWidth = width - 2;
+        infoWinY = height - infoWinHeight - 1
+        infoWinX = 1
+        infoWin = curses.newwin(infoWinHeight, infoWinWidth, infoWinY, infoWinX)
+        if not tooSmall: infoWin.refresh()
+        
+        infoWinUserWidth = infoWinWidth//2 - 1
+        infoWinUserHeight = infoWinHeight
+        infoWinUserY = 0
+        infoWinUserX = 0
+        try:
+            infoWinUser = infoWin.derwin(infoWinUserHeight, infoWinUserWidth, infoWinUserY, infoWinUserX)
+            tooSmall = False
+            infoWinUser.border()
+        except curses.error:
+            pass
+        
+        userWinLabel = "Informações de Usuário"
+        userWinLabelY = 2
+        userWinLabelX = (infoWinUserWidth - len(userWinLabel))// 2
+
+        if (infoWinUserWidth > len(userWinLabel)):
+            try:
+                infoWinUser.addstr(userWinLabelY, userWinLabelX, userWinLabel, curses.A_BOLD)
+            except curses.error:
+                pass
+
+
+        userWinUsernameLabel = "Usuário:"
+        userWinUsernameContent = user["name"] + ' ' + user["surname"]
+        userWinUsernameText = userWinUsernameLabel + " " + userWinUsernameContent
+
+        userWinStudentIdLabel = "Matrícula:"
+        userWinStudentIdContent = user["studentId"]
+        userWinStudentIdText = userWinStudentIdLabel + " " + userWinStudentIdContent
+
+        fump = requests.get(API_URL+f'usuario/{user["id"]}/fump').json()
+        userWinFumpLabel = "FUMP:"
+        userWinFumpLevel = 'Nível ' if user["fump"] > 0  else ''
+        userWinFumpContent = f'{userWinFumpLevel}{fump["level"]} (almoço R${float(fump["price"])/100:.2f})'
+        userWinFumpText = userWinFumpLabel + " " + userWinFumpContent
+
+        userWinBalanceLabel = "Saldo:"
+        userWinBalanceContent = f'R${float(user["balance"])/100:.2f}'
+        userWinBalanceText = userWinBalanceLabel + " " + userWinBalanceContent
+
+        labels = [userWinUsernameLabel, userWinStudentIdLabel, userWinFumpLabel,userWinBalanceLabel]
+        contents = [userWinUsernameContent, userWinStudentIdContent,userWinFumpContent,userWinBalanceContent]
+        texts = [userWinUsernameText, userWinStudentIdText,userWinFumpText,userWinBalanceText]
+        textX = (infoWinUserWidth - len(max(texts, key=len))) // 2
+        textY =  int((infoWinUserHeight - 3)*0.3) + 3
+        starterTextY = textY
+
+        if (infoWinUserWidth > len(max(texts,key=len))):
+            for i,text in enumerate(texts):
+                try:
+                    tooSmall = False
+                    infoWinUser.addstr(textY, textX, labels[i], curses.A_BOLD)
+                    infoWinUser.addstr(textY, textX+len(labels[i])+1, contents[i])
+                    textY+=1
+                except curses.error:
+                    tooSmall = True
+                    too_small(stdscr)
+                    continue
+    
+        if not tooSmall: infoWinUser.refresh()
+
+
+        infoWinRestaurantWidth = infoWinWidth//2 - 1
+        infoWinRestaurantHeight = infoWinHeight
+        infoWinRestaurantY = 0
+        infoWinRestaurantX = infoWinUserWidth + 1
+        try:
+            infoWinRestaurant = infoWin.derwin(infoWinRestaurantHeight, infoWinRestaurantWidth, infoWinRestaurantY, infoWinRestaurantX)
+            tooSmall = False
+            infoWinRestaurant.border()
+        except:
+            tooSmall = True
+            pass
+        if not tooSmall: infoWinRestaurant.refresh()
+        
+        restaurantWinLabel = "Lotação dos Restaurantes"
+        restaurantWinLabelY = 2
+        restaurantWinLabelX = (infoWinRestaurantWidth - len(restaurantWinLabel))// 2
+
+        if (infoWinRestaurantWidth > len(restaurantWinLabel)):
+            try:
+                infoWinRestaurant.addstr(restaurantWinLabelY, restaurantWinLabelX, restaurantWinLabel, curses.A_BOLD)
+            except curses.error:
+                pass
+
+        
+        restaurants = requests.get(API_URL+f'restaurante/').json()
+        restaurantTexts = []
+        for restaurant in restaurants:
+            restaurantTexts.append(f'{restaurant["name"]}: {restaurant["occupancy"]}/{restaurant["capacity"]}')
+
+        restaurantTextX = (infoWinRestaurantWidth - len(max(restaurantTexts, key=len))) // 2
+        restaurantTextY = starterTextY
+
+        if (infoWinRestaurantWidth > len(max(restaurantTexts,key=len))):
+            for restaurant in restaurants:
+                try:
+                    tooSmall = False
+                    infoWinRestaurant.addstr(restaurantTextY, restaurantTextX, restaurant["name"]+':', curses.A_BOLD)
+                    if restaurant["occupancy"] >= 1 *  restaurant["capacity"]:
+                        color = curses.color_pair(2)
+                    elif restaurant["occupancy"] >= 0.8 * restaurant["capacity"]:
+                        color = curses.color_pair(3)
+                    else:
+                        color = curses.color_pair(4)
+                    infoWinRestaurant.addstr(restaurantTextY, restaurantTextX+len(restaurant["name"]+':')+2, f'{restaurant["occupancy"]}/{restaurant["capacity"]}', color)
+                    restaurantTextY+=1
+
+                except curses.error:
+                    tooSmall = True
+                    too_small(stdscr)
+                    continue
+        if not tooSmall: infoWinRestaurant.refresh()
+
+        
+        curses.napms(100)
+        
+
 def main(stdscr):
     curses.curs_set(0)
     stdscr.keypad(True)
     stdscr.nodelay(True)
+    curses.start_color()
     curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
+    curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
+    curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+    curses.init_pair(4, curses.COLOR_GREEN, curses.COLOR_BLACK)
+
     while True:
         login(stdscr)
 
