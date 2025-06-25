@@ -92,7 +92,7 @@ cd trabalho-ic
 Depois, execute o instalador:
 ```bash
 ./install.sh          # Linux/macOS
-./install.bat         # Windows
+install.bat         # Windows
 ```
 
 ---
@@ -101,7 +101,7 @@ Depois, execute o instalador:
 
 ```bash
 ./run.sh          # Linux/macOS
-./run.bat         # Windows
+run.bat         # Windows
 ```
 ---
 
