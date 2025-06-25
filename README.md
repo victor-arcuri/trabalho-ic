@@ -1,16 +1,37 @@
 # Trabalho de IC
 
-## Objetivo
-O  trabalho de Introdução à Computação visa fortalecer a programação ética e a boa conduta social dos estudantes do curso, ao incentivá-los a utilizar sua criatividade e capacidade de resolução de problemas para criarem soluções tecnológicas para o ambiente universitário, as quais promovam o bem-estar social e a melhorem aspectos do dia-a-dia, solucionando problemas ou facilitando outros aspectos. 
+## 📚 Sumário
 
-## Base Teórica do Trabalho
+- [🎯 Objetivo](#-objetivo)
+- [📝 Base Teórica do Trabalho](#-base-teórica-do-trabalho)
+- [💻 Base Prática do Trabalho](#-base-prática-do-trabalho)
+  - [API](#api)
+  - [Catraca](#catraca)
+  - [Totem](#totem)
+  - [App Mobile](#app-mobile)
+- [✅ Requisitos](#-requisitos)
+- [⚙️ Instalação](#-instalação)
+- [🚀 Execução](#-execução)
+- [📝 Notas](#-notas)
+- [🧹 Remover ambiente virtual](#-remover-ambiente-virtual)
+
+---
+
+## 🎯 Objetivo
+O trabalho de Introdução à Computação visa fortalecer a programação ética e a boa conduta social dos estudantes do curso, ao incentivá-los a utilizar sua criatividade e capacidade de resolução de problemas para criarem soluções tecnológicas para o ambiente universitário, as quais promovam o bem-estar social e a melhorem aspectos do dia-a-dia, solucionando problemas ou facilitando outros aspectos. 
+
+---
+
+## 📝 Base Teórica do Trabalho 
 ### O Problema
 Atualmente, na UFMG, os estudantes se deparam com um grande problema: a falta de otimização e organização nas filas dos restaurantes universitários levam à superlotação do local e a grande perda de tempo para que seja possível se alimentar.
 
 ### A Solução
 Visando corrigir essa falta de otimização, desejamos criar um sistema de controle de pagamento para acelerar as filas, por meio de um cartão específico para uso nos restaurantes universitários. Esse cartão poderá ser recarregado por totens espalhados no campus, ou por um aplicativo mobile, permitindo que o pagamento seja realizado automaticamente ao passar o cartão na catraca, caso haja saldo. Os totens e o aplicativo também devem apresentar o índice de lotação de cada restaurante, auxiliando na escolha de qual ir, sem que seja preciso conferir pessoalmente.
 
-## Base Prática do Trabalho
+---
+
+## 💻 Base Prática do Trabalho
 Na prática, a partir de uma pesquisa, criaremos um documento com dados e informações embasando nossa ideia, além de detalhá-la. Além disso, criaremos mock-ups visuais das aplicações, slides para a apresentação e protótipos das funcionalidades básicas das aplicações, incluindo uma API, um banco de dados básico, um aplicativo mobile e uma aplicação para os totens, os quais todos serão detalhados a diante.
 
 ### API
@@ -50,24 +71,87 @@ O protótipo do totem é uma aplicação básica que tem como objetivo simular o
 ### App Mobile
 Tendo em vista que as funcionalidades do app mobile seriam as mesmas do totem, variando apenas métodos de pagamento, não há necessidade de criar um protótipo específico para ele.
 
+---
 
-## Como executar os programas
-Para iniciar a api, rode:
+## ✅ Requisitos
+
+- Python 3.7 ou superior
+- `pip` instalado
+- `curl` (já vem no Windows 10+ e Linux)
+
+---
+
+## ⚙️ Instalação
+
+Primeiro, clone o repositório:
+
+```bash
+git clone https://github.com/victor-arcuri/trabalho-ic/
+cd trabalho-ic
 ```
+
+<details>
+<summary>🔵 Linux/macOS</summary>
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+</details>
+
+<details>
+<summary>🟣 Windows</summary>
+
+```cmd
+python -m venv venv
+venv\Scriptsctivate
+pip install -r requirements.txt
+```
+
+</details>
+
+---
+
+## 🚀 Execução
+
+<details>
+<summary>🔵 Linux/macOS</summary>
+
+```bash
 uvicorn api.main --reload
-```
-
-Para rodar o protótipo da catraca:
-```
 python3 -m catraca.main
-```
-
-Para rodar o protótipo do totem:
-```
 python3 -m totem.main
+./run.sh
 ```
 
-Para executar tudo:
+</details>
+
+<details>
+<summary>🟣 Windows</summary>
+
+```cmd
+uvicorn api.main --reload
+python3 -m catraca.main
+python3 -m totem.main
+run.bat
 ```
-./run_all.sh
+
+</details>
+
+---
+
+## 📝 Notas
+
+- O script `run` ativa o ambiente, inicia a API e abre duas janelas (totem e catraca).
+- Logs da API são salvos em `api.log`.
+
+---
+
+## 🧹 Remover ambiente virtual
+
+```bash
+rm -rf venv          # Linux/macOS
+rd /s /q venv        # Windows
 ```
