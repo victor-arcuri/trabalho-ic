@@ -84,62 +84,25 @@ Tendo em vista que as funcionalidades do app mobile seriam as mesmas do totem, v
 ## ⚙️ Instalação
 
 Primeiro, clone o repositório:
-
-```bash
+```cmd
 git clone https://github.com/victor-arcuri/trabalho-ic/
 cd trabalho-ic
 ```
 
-<details>
-<summary>🔵 Linux/macOS</summary>
-
+Depois, execute o instalador:
 ```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+./install.sh          # Linux/macOS
+./install.bat         # Windows
 ```
-
-</details>
-
-<details>
-<summary>🟣 Windows</summary>
-
-```cmd
-python -m venv venv
-venv\Scriptsctivate
-pip install -r requirements.txt
-```
-
-</details>
 
 ---
 
 ## 🚀 Execução
 
-<details>
-<summary>🔵 Linux/macOS</summary>
-
 ```bash
-uvicorn api.main --reload
-python3 -m catraca.main
-python3 -m totem.main
-./run.sh
+./run.sh          # Linux/macOS
+./run.bat         # Windows
 ```
-
-</details>
-
-<details>
-<summary>🟣 Windows</summary>
-
-```cmd
-uvicorn api.main --reload
-python3 -m catraca.main
-python3 -m totem.main
-run.bat
-```
-
-</details>
-
 ---
 
 ## 📝 Notas
