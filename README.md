@@ -1,4 +1,4 @@
-# Trabalho de IC
+# Trabalho de IC - BANDEX
 
 ## 📚 Sumário
 
