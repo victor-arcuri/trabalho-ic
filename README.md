@@ -1,4 +1,4 @@
-# Trabalho de IC
+# Trabalho de IC - BANDEX
 
 ## 📚 Sumário
 
@@ -92,7 +92,7 @@ cd trabalho-ic
 Depois, execute o instalador:
 ```bash
 ./install.sh          # Linux/macOS
-./install.bat         # Windows
+install.bat         # Windows
 ```
 
 ---
@@ -101,7 +101,7 @@ Depois, execute o instalador:
 
 ```bash
 ./run.sh          # Linux/macOS
-./run.bat         # Windows
+run.bat         # Windows
 ```
 ---
 
@@ -109,6 +109,7 @@ Depois, execute o instalador:
 
 - O script `run` ativa o ambiente, inicia a API e abre duas janelas (totem e catraca).
 - Logs da API são salvos em `api.log`.
+- O projeto foi desenvolvido para uso local apenas, em um sistema Linux, portanto não há garantias de execução em sistemas Windows, pela biblioteca curses não ser padrão neles. Possíveis bugs e erros podem acontecer ao executar o projeto, esteja avisado!
 
 ---
 
