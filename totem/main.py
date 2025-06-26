@@ -150,7 +150,7 @@ def login(stdscr):
         height, width = stdscr.getmaxyx()
         if not tooSmall: draw_bg(stdscr)
 
-        logo = artManager.load_art('main_logo_2.txt')
+        logo = artManager.load_art('main_logo.txt')
         logoWidth = len(max(logo))
         logoHeight = len(logo)
         if (width >= logoWidth + 16 and height >= logoHeight + 4):
@@ -274,7 +274,7 @@ def user_recharge(stdscr, user):
         height, width = stdscr.getmaxyx()
         if not tooSmall: draw_bg(stdscr)
 
-        logo = artManager.load_art('main_logo_2.txt')
+        logo = artManager.load_art('main_logo.txt')
         logoWidth = len(max(logo))
         logoHeight = len(logo)
         if (width >= logoWidth + 16 and height >= logoHeight + 4):
@@ -497,7 +497,7 @@ def user_dashboard(stdscr, user):
         stdscr.refresh()
         curses.curs_set(0)
         height, width = stdscr.getmaxyx()
-        logo = artManager.load_art('main_logo_2.txt')
+        logo = artManager.load_art('main_logo.txt')
         logoWidth = len(max(logo))
         logoHeight = len(logo)
         if (width >= logoWidth + 16 and height >= logoHeight + 4):
